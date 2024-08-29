@@ -1,0 +1,50 @@
+﻿@model BanqueTardiApp.Models.Client
+
+@{
+    ViewData["Title"] = "Supprimer client";
+}
+
+<h1>Supprimer</h1>
+
+<h3>Êtes-vous sûr de vouloir supprimer ce client ?</h3>
+<div>
+    <h4>Client</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Nom)</th>
+            <td>@Html.DisplayFor(model => model.Nom)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Prenom)</th>
+            <td>@Html.DisplayFor(model => model.Prenom)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.DateNaissance)</th>
+            <td>@Model.DateNaissance.ToLongDateString()</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Adresse)</th>
+            <td>@Html.DisplayFor(model => model.Adresse)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.CodePostal)</th>
+            <td>@Html.DisplayFor(model => model.CodePostal)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.NbDecouverts)</th>
+            <td>@Html.DisplayFor(model => model.NbDecouverts)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Telephone)</th>
+            <td>@Html.DisplayFor(model => model.Telephone)</td>
+        </tr>
+    </table>
+
+    <form asp-action="Supprimer">
+        <input type="hidden" name="code" value="@Model.Code" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a asp-action="Gerer" asp-route-code="@Model.Code">Retourner à gestion du client</a>
+    </form>
+</div>
+

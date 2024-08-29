@@ -1,0 +1,61 @@
+﻿@model BanqueTardiApp.Models.Client
+
+@{
+    ViewData["Title"] = "Fiche détaillée client";
+}
+
+<h1>Fiche détaillée</h1>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Nom)</th>
+                <td>@Html.DisplayFor(model => model.Nom)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Prenom)</th>
+                <td>@Html.DisplayFor(model => model.Prenom)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DateNaissance)</th>
+                <td>@Model.DateNaissance.ToLongDateString()</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Adresse)</th>
+                <td>@Html.DisplayFor(model => model.Adresse)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.CodePostal)</th>
+                <td>@Html.DisplayFor(model => model.CodePostal)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.NbDecouverts)</th>
+                <td>@Html.DisplayFor(model => model.NbDecouverts)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Telephone)</th>
+                <td>@Html.DisplayFor(model => model.Telephone)</td>
+            </tr>
+            @if (!string.IsNullOrEmpty(Model.NomParent))
+            {
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.NomParent)</th>
+                    <td>@Html.DisplayFor(model => model.NomParent)</td>
+                </tr>
+            }
+            @if (!string.IsNullOrEmpty(Model.TelephoneParent))
+            {
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.TelephoneParent)</th>
+                    <td>@Html.DisplayFor(model => model.TelephoneParent)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Gerer" asp-route-code="@Model.Code">Retourner à la gestion du client</a>
+</div>

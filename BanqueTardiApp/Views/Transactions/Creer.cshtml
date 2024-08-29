@@ -1,0 +1,51 @@
+﻿@model BanqueTardiApp.Models.Transaction
+
+<h1>Créer</h1>
+
+<h4>Transaction</h4>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Creer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="NumeroCompte" />
+
+            <div class="form-group">
+                <label asp-for="DateOperation" class="control-label"></label>
+                <input asp-for="DateOperation" class="form-control" readonly />
+                <span asp-validation-for="DateOperation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeOperation" class="control-label">Type d'opération</label>
+                <select asp-for="TypeOperation" class="form-control">
+                    @foreach (var item in Html.GetEnumSelectList<BanqueTardiApp.Models.TypeOperation>())
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Montant" class="control-label"></label>
+                <input asp-for="Montant" class="form-control" type="number"/>
+                <span asp-validation-for="Montant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Libelle" class="control-label"></label>
+                <input asp-for="Libelle" class="form-control" />
+                <span asp-validation-for="Libelle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Clients" asp-action="Gerer" asp-route-code="@Model.CompteBancaire?.ClientCode">Retourner à la gestion du client</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

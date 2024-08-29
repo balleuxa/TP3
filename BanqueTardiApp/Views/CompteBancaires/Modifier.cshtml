@@ -1,0 +1,100 @@
+﻿@model BanqueTardiApp.Models.CompteBancaire
+
+@{
+    ViewData["Title"] = "Modifier compte";
+    bool estModifiable = ViewBag.ContientSeulementOuverture == true;
+}
+
+<h2>Nouveau compte pour @Model.ClientCode</h2>
+
+<form asp-action="Modifier">
+    <input type="hidden" asp-for="ClientCode" />
+    <input type="hidden" name="noCompte" asp-for="NumeroCompte" />
+
+    <div class="form-group">
+        <label asp-for="TypeCompte" class="control-label">Type de compte</label>
+
+        @if (estModifiable)
+        {
+            <select asp-for="TypeCompte" class="form-control" id="TypeCompteSelect">
+                @foreach (var item in Html.GetEnumSelectList<BanqueTardiApp.Models.TypeCompte>())
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        }
+        else
+        {
+            <select asp-for="TypeCompte" class="form-control" id="TypeCompteSelect" disabled="disabled">
+                @foreach (var item in Html.GetEnumSelectList<BanqueTardiApp.Models.TypeCompte>())
+                {
+                    <option value="@item.Value" selected="@item.Value == @Model.TypeCompte">@item.Text</option>
+                }
+            </select>
+        }
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label style="color: blue;">Taux d'intérêt: <span id="TauxInteret">@Model.TauxInteret</span>%</label>
+        </div>
+
+        <div class="col-md-3">
+            <label style="color: blue;">Taux d'intérêt découvert: <span id="TauxInteretDecouvert">@Model.TauxInteretDecouvert</span>%</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Solde" class="control-label">Solde d'ouverture</label>
+
+        @if (estModifiable)
+        {
+            <input asp-for="Solde" class="form-control" type="number" />
+        }
+        else
+        {
+            <input asp-for="Solde" class="form-control" type="number" readonly="readonly" disabled="disabled" />
+        }
+
+        <span asp-validation-for="Solde" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Enregistrer" class="btn btn-primary" @(estModifiable ? "" : "disabled='disabled'") />
+</form>
+
+<div>
+    <a asp-controller="Clients" asp-action="Gerer" asp-route-code="@Model.ClientCode">Retourner à la gestion du client</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('TypeCompteSelect').addEventListener('change', function () {
+
+            var tauxInteret = 0;
+            var tauxInteretDecouvert = 0;
+
+            switch (this.value) {
+                case "Cheque":
+                    tauxInteret = 0;
+                    tauxInteretDecouvert = 7;
+                    break;
+                case "Epargne":
+                    tauxInteret = 2;
+                    tauxInteretDecouvert = 0;
+                    break;
+                case "Placement":
+                    tauxInteret = 4;
+                    tauxInteretDecouvert = 0;
+                    break;
+            }
+
+            document.getElementById('TauxInteret').textContent = tauxInteret;
+            document.getElementById('TauxInteretDecouvert').textContent = tauxInteretDecouvert;
+        });
+    </script>
+}

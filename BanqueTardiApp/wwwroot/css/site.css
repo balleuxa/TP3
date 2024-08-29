@@ -1,0 +1,74 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+input[readonly] {
+    background-color: #f9f9f9;
+    border: none;
+    color: #333;
+    user-select: none;
+    pointer-events: none;
+}
+
+.parent-prop {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+.compte-container {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.compte-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.compte-info {
+    display: flex;
+    column-gap: 50px;
+}
+
+.compte-operations {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+
+.compte-footer {
+    text-align: right;
+    font-weight: bold;
+}
+
+.btn-link {
+    margin-left: 10px;
+}
+
+hr {
+    border-top: 1px solid #000;
+}

@@ -1,0 +1,104 @@
+﻿@model BanqueTardiApp.Models.Client
+
+@{
+    ViewData["Title"] = "Gérer client";
+}
+
+<div class="container">
+    <h2 class="mt-4">Gestion du client</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <td>@Model.Nom</td>
+                </tr>
+                <tr>
+                    <th>Prénom</th>
+                    <td>@Model.Prenom</td>
+                </tr>
+                <tr>
+                    <th>Code</th>
+                    <td>@Model.Code</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a asp-action="FicheDetaillee" asp-route-code="@Model.Code" class="btn btn-link">Fiche détaillée</a>
+            <a asp-action="Modifier" asp-route-code="@Model.Code" class="btn btn-link">Modifier</a>
+            <a asp-action="Supprimer" asp-route-code="@Model.Code" class="btn btn-link">Supprimer</a>
+            <a asp-controller="CompteBancaires" asp-action="Creer" asp-route-clientCode="@Model.Code" class="btn btn-link">Ajouter compte</a>
+        </div>
+    </div>
+
+    @if (Model.Comptes != null)
+    {
+        <div>
+            @foreach (var compte in Model.Comptes)
+            {
+                <div class="compte-container">
+                    <div class="compte-header">
+                        <div class="compte-info">
+
+                            <span>
+                                Compte:
+                                @(compte.TypeCompte switch
+                                {
+                                    TypeCompte.Cheque => "Chèque",
+                                    TypeCompte.Epargne => "Épargne",
+                                    TypeCompte.Placement => "Placement garanti",
+                                    _ => compte.TypeCompte.ToString()
+                                })
+                            </span>
+
+                            <span>No Compte: @compte.NumeroCompte</span>
+                        </div>
+                        <div>
+                            <a asp-action="Modifier" asp-controller="CompteBancaires" asp-route-noCompteBancaire="@compte.NumeroCompte" class="btn btn-link">Modifier</a>
+                            <a asp-action="Historique" asp-controller="Transactions" asp-route-noCompteBancaire="@compte.NumeroCompte" class="btn btn-link">Historique</a>
+                            <a asp-action="Creer" asp-controller="Transactions" asp-route-noCompteBancaire="@compte.NumeroCompte" class="btn btn-link">Ajouter opération</a>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <h4>10 dernières opérations</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type d'opération</th>
+                                    <th>Montant</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transaction in compte.Transactions)
+                                {
+                                    <tr>
+                                        <td>@transaction.DateOperation.ToShortDateString()</td>
+                                        <td>
+                                            @(transaction.TypeOperation switch
+                                            {
+                                                TypeOperation.Debit => "Débit",
+                                                TypeOperation.Credit => "Crédit",
+                                                _ => transaction.TypeOperation.ToString()
+                                            })
+                                        </td>
+                                        <td>@transaction.Montant</td>
+                                        <td>@transaction.Libelle</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="compte-footer">
+                        <span>Solde du compte : @Html.DisplayFor(m => compte.Solde)</span>
+                    </div>
+                </div>
+                <hr />
+            }
+        </div>
+    }
+</div>

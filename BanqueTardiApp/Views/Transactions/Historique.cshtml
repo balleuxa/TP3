@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BanqueTardiApp.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Historique transactions";
+    var selectedTypeOperation = ViewBag.SelectedTypeOperation as TypeOperation?;
+}
+
+<h1>Historique [@ViewBag.NumeroCompte]</h1>
+
+<form asp-action="Historique" method="get" class="mb-3">
+    <input type="hidden" name="noCompteBancaire" value="@ViewBag.NumeroCompte" />
+    <label for="TypeOperation">Filtrer par type d'opération :</label>
+    <select id="TypeOperation" name="typeOperation" class="form-control" asp-for="@selectedTypeOperation" asp-items="Html.GetEnumSelectList<BanqueTardiApp.Models.TypeOperation>()" onchange="this.form.submit()">
+        <option value="">Tous les types</option>
+    </select>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Identifiant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOperation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOperation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Montant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Libelle)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Identifiant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOperation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOperation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Montant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Libelle)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Clients" asp-action="Gerer" asp-route-code="@ViewBag.ClientCode">Retourner à la gestion du client</a>
+</div>

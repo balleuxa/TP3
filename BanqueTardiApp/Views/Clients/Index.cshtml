@@ -1,0 +1,68 @@
+﻿@model IEnumerable<BanqueTardiApp.Models.Client>
+
+@{
+    ViewData["Title"] = "Liste client";
+}
+
+<h1>Liste des clients</h1>
+
+<p>
+    <a asp-action="Creer">Nouveau client</a>
+</p>
+<form method="get" action="@Url.Action("Index", "Clients")">
+    <input type="text" name="nomRechercher" placeholder="Rechercher par nom" value="@ViewData["Filtre"]" />
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prenom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adresse)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="3" style="font-weight: bold; font-size: 1.2em;" class="text-danger">
+                    Aucun client ne correspond au nom recherché.
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prenom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adresse)
+                    </td>
+                    <td>
+                        <a asp-action="Gerer" asp-route-code="@item.Code">Gérer</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

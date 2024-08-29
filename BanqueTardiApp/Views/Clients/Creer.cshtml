@@ -1,0 +1,93 @@
+﻿@model BanqueTardiApp.Models.Client
+
+@{
+    ViewData["Title"] = "Nouveau client";
+}
+
+<h1>Nouveau client</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Creer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" readonly="readonly" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Nom" class="control-label"></label>
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prenom" class="control-label"></label>
+                <input asp-for="Prenom" class="form-control" />
+                <span asp-validation-for="Prenom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateNaissance" class="control-label"></label>
+                <input asp-for="DateNaissance" class="form-control" id="DateNaissance" type="date" />
+                <span asp-validation-for="DateNaissance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresse" class="control-label"></label>
+                <input asp-for="Adresse" class="form-control" />
+                <span asp-validation-for="Adresse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodePostal" class="control-label"></label>
+                <input asp-for="CodePostal" class="form-control" />
+                <span asp-validation-for="CodePostal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telephone" class="control-label"></label>
+                <input asp-for="Telephone" class="form-control" />
+                <span asp-validation-for="Telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NomParent" class="control-label"></label>
+                <input asp-for="NomParent" class="form-control" id="NomParent" disabled />
+                <span asp-validation-for="NomParent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TelephoneParent" class="control-label"></label>
+                <input asp-for="TelephoneParent" class="form-control" id="TelephoneParent" disabled />
+                <span asp-validation-for="TelephoneParent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Liste des clients</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            const AGE_MINIMUM = 15;
+            const AGE_MAXIMUM = 18;
+
+            function configurerFormulaire() {
+
+                var dateNaissance = $('#DateNaissance').val();
+                var age = calculerAge(dateNaissance);
+
+                if (age >= AGE_MINIMUM && age < AGE_MAXIMUM) {
+                    $('#NomParent, #TelephoneParent').prop('disabled', false);
+                } else {
+                    $('#NomParent, #TelephoneParent').val('').prop('disabled', true);
+                }
+            }
+
+            $('#DateNaissance').on('blur keyup change', configurerFormulaire);
+
+            configurerFormulaire();
+        });
+    </script>
+}
